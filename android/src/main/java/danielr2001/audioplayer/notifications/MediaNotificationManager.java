@@ -208,9 +208,6 @@ public class MediaNotificationManager {
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.ONE || audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon1, "Custom1", pCustomIntent1);
         }
-        if (audioObject.getNotificationActionMode() == NotificationDefaultActions.PREVIOUS || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.ic_previous, "Previous", pPrevIntent);
-        }
 
         if (this.isPlaying) {
             builder.addAction(R.drawable.ic_pause, "Pause", pPauseIntent);
@@ -218,9 +215,6 @@ public class MediaNotificationManager {
             builder.addAction(R.drawable.ic_play, "Play", ppPlayIntent);
         }
 
-        if (audioObject.getNotificationActionMode() == NotificationDefaultActions.NEXT || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.ic_next, "Next", pNextIntent);
-        }
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon2, "Custom2", pCustomIntent2);
         }
