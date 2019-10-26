@@ -219,7 +219,7 @@ public class MediaNotificationManager {
         }
 
         if (audioObject.getNotificationActionMode() == NotificationDefaultActions.NEXT || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.ic_next, "Next", pNextIntent);
+            builder.addAction(customIcon2, "Next", pNextIntent);
         }
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon2, "Custom2", pCustomIntent2);
