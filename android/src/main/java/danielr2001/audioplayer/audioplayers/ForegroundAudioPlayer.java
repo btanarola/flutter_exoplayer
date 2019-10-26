@@ -98,7 +98,11 @@ public class ForegroundAudioPlayer extends Service implements AudioPlayer {
             }
             if (intent.getAction().equals(MediaNotificationManager.PREVIOUS_ACTION)) {
                 if(!this.released){
-                    player.seekTo(player.getCurrentPosition() - 10000);
+                    if(player.getCurrentPosition()>=15000){
+                        player.seekTo(player.getCurrentPosition() - 15000);
+                    }else{
+                        player.seekTo(0);
+                    }
                 }
             } else if (intent.getAction().equals(MediaNotificationManager.PLAY_ACTION)) {
                 if (currentAudioObject.getNotificationActionCallbackMode() == NotificationActionCallbackMode.DEFAULT) {
@@ -122,7 +126,7 @@ public class ForegroundAudioPlayer extends Service implements AudioPlayer {
                 }
             } else if (intent.getAction().equals(MediaNotificationManager.NEXT_ACTION)) {
                 if(!this.released){
-                    player.seekTo(player.getCurrentPosition() + 10000);
+                    player.seekTo(player.getCurrentPosition() + 15000);
                 }
             } else if(intent.getAction().equals(MediaNotificationManager.CUSTOM1_ACTION)) {
                 ref.handleNotificationActionCallback(this.foregroundAudioPlayer, NotificationActionName.CUSTOM1);
