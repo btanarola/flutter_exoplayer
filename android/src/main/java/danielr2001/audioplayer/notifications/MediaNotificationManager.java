@@ -236,7 +236,7 @@ public class MediaNotificationManager {
         }
 
         if (audioObject.getNotificationActionMode() == NotificationDefaultActions.FORWARD || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.exo_icon_fastforward, "Forward", pForwardIntent);
+            builder.addAction(R.drawable.exo_icon_rewind, "Forward", pForwardIntent);
         }
 
         if (audioObject.getNotificationActionMode() == NotificationDefaultActions.NEXT || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
