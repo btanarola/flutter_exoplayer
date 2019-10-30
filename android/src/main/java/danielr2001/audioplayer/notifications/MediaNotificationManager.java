@@ -218,6 +218,8 @@ public class MediaNotificationManager {
         int customIcon2 = this.context.getResources().getIdentifier("ic_custom2", "drawable",
         this.context.getPackageName());
 
+        builder.addAction(R.drawable.exo_icon_rewind, "Backward", pBackwardIntent);
+
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.ONE || audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon1, "Custom1", pCustomIntent1);
         }
@@ -226,7 +228,7 @@ public class MediaNotificationManager {
         }
 
         if (audioObject.getNotificationActionMode() == NotificationDefaultActions.BACKWARD || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.exo_icon_rewind, "Backward", pBackwardIntent);
+            //builder.addAction(R.drawable.exo_icon_rewind, "Backward", pBackwardIntent);
         }
 
         if (this.isPlaying) {
