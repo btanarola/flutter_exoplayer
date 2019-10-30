@@ -225,10 +225,18 @@ public class MediaNotificationManager {
             //builder.addAction(R.drawable.ic_previous, "Previous", pPrevIntent);
         }
 
+        if (audioObject.getNotificationActionMode() == NotificationDefaultActions.BACKWARD || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
+            builder.addAction(R.drawable.exo_icon_rewind, "Backward", pBackwardIntent);
+        }
+
         if (this.isPlaying) {
             builder.addAction(R.drawable.ic_pause, "Pause", pPauseIntent);
         } else {
             builder.addAction(R.drawable.ic_play, "Play", ppPlayIntent);
+        }
+
+        if (audioObject.getNotificationActionMode() == NotificationDefaultActions.FORWARD || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
+            builder.addAction(R.drawable.exo_icon_fastforward, "Forward", pForwardIntent);
         }
 
         if (audioObject.getNotificationActionMode() == NotificationDefaultActions.NEXT || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
@@ -236,14 +244,6 @@ public class MediaNotificationManager {
         }
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon2, "Custom2", pCustomIntent2);
-        }
-
-        if (audioObject.getNotificationActionMode() == NotificationDefaultActions.FORWARD || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.exo_icon_fastforward, "Forward", pForwardIntent);
-        }
-
-        if (audioObject.getNotificationActionMode() == NotificationDefaultActions.BACKWARD || audioObject.getNotificationActionMode() == NotificationDefaultActions.ALL) {
-            builder.addAction(R.drawable.exo_icon_rewind, "Backward", pBackwardIntent);
         }
 
         return builder;

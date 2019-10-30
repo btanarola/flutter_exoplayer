@@ -245,9 +245,9 @@ public class AudioPlayerPlugin implements MethodCallHandler {
                 notificationDefaultActions = NotificationDefaultActions.NEXT;
               } else if (notificationDefaultActionsInts.get(i) == 2){
                 notificationDefaultActions = NotificationDefaultActions.PREVIOUS;
-              } else if (notificationDefaultActionsInts.get(i) == 3){
-                notificationDefaultActions = NotificationDefaultActions.FORWARD;
               } else if (notificationDefaultActionsInts.get(i) == 4){
+                notificationDefaultActions = NotificationDefaultActions.FORWARD;
+              } else if (notificationDefaultActionsInts.get(i) == 5){
                 notificationDefaultActions = NotificationDefaultActions.BACKWARD;
               } else{
                 notificationDefaultActions = NotificationDefaultActions.ALL;
