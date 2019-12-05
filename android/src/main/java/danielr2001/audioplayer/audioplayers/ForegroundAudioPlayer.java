@@ -36,6 +36,8 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
@@ -157,8 +159,10 @@ public class ForegroundAudioPlayer extends Service implements AudioPlayer {
     @Override
     public void initExoPlayer(int index) {
         player = ExoPlayerFactory.newSimpleInstance(this.context, new DefaultTrackSelector());
+        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(Util.getUserAgent(this.context, "exoPlayerLibrary"), null, DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS, DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, true);
+
         DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this.context,
-                Util.getUserAgent(this.context, "exoPlayerLibrary"));
+                httpDataSourceFactory);
         player.setForegroundMode(true);
         // playlist/single audio load
         if (this.playerMode == PlayerMode.PLAYLIST) {
