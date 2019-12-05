@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.media.session.MediaButtonReceiver;
 
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -484,6 +485,11 @@ public class ForegroundAudioPlayer extends Service implements AudioPlayer {
                         break;
                     } // handle of released is in release method!
                 }
+            }
+
+            @Override
+            public void onPlayerError(ExoPlaybackException error) {
+                Log.e("errror", "error-============="+error.getMessage());
             }
         });
     }
