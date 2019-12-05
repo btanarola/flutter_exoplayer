@@ -3,7 +3,6 @@ package danielr2001.audioplayer.notifications;
 import danielr2001.audioplayer.audioplayers.ForegroundAudioPlayer;
 import danielr2001.audioplayer.enums.NotificationDefaultActions;
 import danielr2001.audioplayer.enums.NotificationCustomActions;
-import danielr2001.audioplayer.interfaces.AsyncResponse;
 import danielr2001.audioplayer.R;
 import danielr2001.audioplayer.models.AudioObject;
 
@@ -14,15 +13,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import java.util.Map;
 
 public class MediaNotificationManager {
     public static final String PLAY_ACTION = "com.daniel.exoPlayer.action.play";
@@ -125,11 +120,7 @@ public class MediaNotificationManager {
         isShowing = true;
         this.audioObject = audioObject;
         this.isPlaying = isPlaying;
-        if (audioObject.getLargeIconUrl() != null) {
-            loadImageFromUrl(audioObject.getLargeIconUrl(), audioObject.getIsLocal());
-        } else {
-            showNotification();
-        }
+        showNotification();
     }
     
     //update current notification
@@ -243,28 +234,5 @@ public class MediaNotificationManager {
                     .setMediaSession(mediaSession.getSessionToken()));
         }
         return builder;
-    }
-
-    private void loadImageFromUrl(String imageUrl, boolean isLocal) {
-        try {
-            new LoadImageFromUrl(imageUrl, isLocal, new AsyncResponse() {
-                @Override
-                public void processFinish(Map<String,Bitmap> bitmapMap) {
-                    if (bitmapMap != null) {
-                        if(bitmapMap.get(audioObject.getLargeIconUrl()) != null){
-                            audioObject.setLargeIcon(bitmapMap.get(audioObject.getLargeIconUrl()));
-                            showNotification();
-                        }else{
-                            Log.e("ExoPlayerPlugin", "canceled showing notification!");
-                        }
-                    } else {
-                        showNotification();
-                        Log.e("ExoPlayerPlugin", "Failed loading image!");
-                    }
-                }
-            }).execute();
-        } catch (Exception e) {
-            Log.e("ExoPlayerPlugin", "Failed loading image!");
-        }
     }
 }
