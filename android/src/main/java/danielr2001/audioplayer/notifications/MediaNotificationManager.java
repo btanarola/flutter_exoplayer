@@ -3,6 +3,7 @@ package danielr2001.audioplayer.notifications;
 import danielr2001.audioplayer.audioplayers.ForegroundAudioPlayer;
 import danielr2001.audioplayer.enums.NotificationDefaultActions;
 import danielr2001.audioplayer.enums.NotificationCustomActions;
+import danielr2001.audioplayer.interfaces.AsyncResponse;
 import danielr2001.audioplayer.R;
 import danielr2001.audioplayer.models.AudioObject;
 
@@ -13,11 +14,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import java.util.Map;
 
 public class MediaNotificationManager {
     public static final String PLAY_ACTION = "com.daniel.exoPlayer.action.play";
@@ -86,7 +91,7 @@ public class MediaNotificationManager {
     private void initIntents() {
         notificationIntent = new Intent(this.context, activity.getClass());
         pNotificatioIntent = PendingIntent.getActivity(this.context, 0,
-        notificationIntent, 0);
+                notificationIntent, 0);
 
         playIntent = new Intent(this.context, ForegroundAudioPlayer.class);
         playIntent.setAction(PLAY_ACTION);
@@ -120,9 +125,13 @@ public class MediaNotificationManager {
         isShowing = true;
         this.audioObject = audioObject;
         this.isPlaying = isPlaying;
-        showNotification();
+        if (audioObject.getLargeIconUrl() != null) {
+            loadImageFromUrl(audioObject.getLargeIconUrl(), audioObject.getIsLocal());
+        } else {
+            showNotification();
+        }
     }
-    
+
     //update current notification
     public void makeNotification(boolean isPlaying) {
         this.isPlaying = isPlaying;
@@ -135,7 +144,7 @@ public class MediaNotificationManager {
         int icon = this.context.getResources().getIdentifier(audioObject.getSmallIconFileName(), "drawable",
                 this.context.getPackageName());
 
-                notificationManager = initNotificationManager();
+        notificationManager = initNotificationManager();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setWhen(System.currentTimeMillis())
@@ -192,9 +201,9 @@ public class MediaNotificationManager {
 
     private NotificationCompat.Builder initNotificationActions(NotificationCompat.Builder builder) {
         int customIcon1 = this.context.getResources().getIdentifier("ic_custom1", "drawable", //! TODO maybe change to custom file name
-        this.context.getPackageName());
+                this.context.getPackageName());
         int customIcon2 = this.context.getResources().getIdentifier("ic_custom2", "drawable",
-        this.context.getPackageName());
+                this.context.getPackageName());
 
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.ONE || audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon1, "Custom1", pCustomIntent1);
@@ -234,5 +243,28 @@ public class MediaNotificationManager {
                     .setMediaSession(mediaSession.getSessionToken()));
         }
         return builder;
+    }
+
+    private void loadImageFromUrl(String imageUrl, boolean isLocal) {
+        try {
+            new LoadImageFromUrl(imageUrl, isLocal, new AsyncResponse() {
+                @Override
+                public void processFinish(Map<String,Bitmap> bitmapMap) {
+                    if (bitmapMap != null) {
+                        if(bitmapMap.get(audioObject.getLargeIconUrl()) != null){
+                            audioObject.setLargeIcon(bitmapMap.get(audioObject.getLargeIconUrl()));
+                            showNotification();
+                        }else{
+                            Log.e("ExoPlayerPlugin", "canceled showing notification!");
+                        }
+                    } else {
+                        showNotification();
+                        Log.e("ExoPlayerPlugin", "Failed loading image!");
+                    }
+                }
+            }).execute();
+        } catch (Exception e) {
+            Log.e("ExoPlayerPlugin", "Failed loading image!");
+        }
     }
 }
