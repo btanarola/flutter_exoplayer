@@ -91,7 +91,7 @@ public class MediaNotificationManager {
     private void initIntents() {
         notificationIntent = new Intent(this.context, activity.getClass());
         pNotificatioIntent = PendingIntent.getActivity(this.context, 0,
-                notificationIntent, 0);
+        notificationIntent, 0);
 
         playIntent = new Intent(this.context, ForegroundAudioPlayer.class);
         playIntent.setAction(PLAY_ACTION);
@@ -144,7 +144,7 @@ public class MediaNotificationManager {
         int icon = this.context.getResources().getIdentifier(audioObject.getSmallIconFileName(), "drawable",
                 this.context.getPackageName());
 
-        notificationManager = initNotificationManager();
+                notificationManager = initNotificationManager();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setWhen(System.currentTimeMillis())
@@ -201,9 +201,9 @@ public class MediaNotificationManager {
 
     private NotificationCompat.Builder initNotificationActions(NotificationCompat.Builder builder) {
         int customIcon1 = this.context.getResources().getIdentifier("ic_custom1", "drawable", //! TODO maybe change to custom file name
-                this.context.getPackageName());
+        this.context.getPackageName());
         int customIcon2 = this.context.getResources().getIdentifier("ic_custom2", "drawable",
-                this.context.getPackageName());
+        this.context.getPackageName());
 
         if(audioObject.getNotificationCustomActions() == NotificationCustomActions.ONE || audioObject.getNotificationCustomActions() == NotificationCustomActions.TWO){
             builder.addAction(customIcon1, "Custom1", pCustomIntent1);
