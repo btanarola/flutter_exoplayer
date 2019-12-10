@@ -29,7 +29,6 @@ import androidx.core.app.NotificationCompat;
 import androidx.media.session.MediaButtonReceiver;
 
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -43,8 +42,6 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
@@ -167,10 +164,9 @@ public class ForegroundAudioPlayer extends Service implements AudioPlayer {
     @Override
     public void initExoPlayer(int index) {
         player = ExoPlayerFactory.newSimpleInstance(this.context, new DefaultTrackSelector());
-        DefaultHttpDataSourceFactory httpDataSourceFactory = new DefaultHttpDataSourceFactory(Util.getUserAgent(this.context, "exoPlayerLibrary"), null, DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS, DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, true);
 
         DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this.context,
-                httpDataSourceFactory);
+                Util.getUserAgent(this.context, "exoPlayerLibrary"));
         player.setForegroundMode(true);
         // playlist/single audio load
         if (this.playerMode == PlayerMode.PLAYLIST) {
@@ -492,11 +488,6 @@ public class ForegroundAudioPlayer extends Service implements AudioPlayer {
                         break;
                     } // handle of released is in release method!
                 }
-            }
-
-            @Override
-            public void onPlayerError(ExoPlaybackException error) {
-                Log.e("error", "error-============="+error.getMessage());
             }
         });
     }
